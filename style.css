@@ -80,6 +80,8 @@ h1, .h1 {
     padding-bottom: 5px;
     margin-top: 0;
     transition: color 0.3s ease;
+    display: inline;
+    background: #ff00ff;
 }
 h1:hover, .h1:hover {
     color: #16a085;
@@ -91,6 +93,8 @@ h2, .h2 {
     padding-bottom: 3px;
     margin-top: 20px;
     transition: color 0.3s ease;
+
+    
 }
 h2:hover, .h2:hover {
     color: #2980b9;
