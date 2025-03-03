@@ -104,8 +104,8 @@
       color: #555;
     }
     
-    /* Modal Styles */
-    .modal {
+     /* Modal Styles */
+     .modal {
       position: fixed;
       top: 0; left: 0;
       width: 100%;
@@ -124,6 +124,7 @@
       width: 90%;
       max-width: 400px;
       position: relative;
+      text-align: center;
     }
     .modal-content h2 { margin-bottom: 1rem; }
     .modal-content input {
@@ -141,6 +142,7 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      margin-bottom: 1rem;
     }
     .modal-content .close {
       position: absolute;
@@ -149,7 +151,18 @@
       font-size: 1.2rem;
       cursor: pointer;
     }
-    .modal-content a { color: #001f3f; font-size: 0.9rem; }
+    .social-btn {
+      width: 100%;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+    .social-btn.google { background: #4285F4; }
+    .social-btn.facebook { background: #4267B2; }
+    .social-btn.linkedin { background: #0077B5; }
 
     /* Responsive Navigation for Mobile */
     @media (max-width: 768px) {
@@ -281,60 +294,7 @@
     </div>
   </div>
 
-  <!-- Authentication Modal -->
-  <div class="modal" id="authModal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('authModal')">&times;</span>
-      <h2>Login / Signup</h2>
-      <input type="email" id="authEmail" placeholder="Email" required>
-      <input type="password" id="authPassword" placeholder="Password" required>
-      <button onclick="authenticate()">Submit</button>
-      <p style="text-align:center; margin-top:1rem;">
-        <a href="#">Forgot Password?</a>
-      </p>
-    </div>
-  </div>
-
-  <script>
-    // Dummy Authentication Flag
-    let isAuthenticated = false;
-
-    // Toggle mobile navigation
-    function toggleNav() {
-      document.getElementById('navLinks').classList.toggle('active');
-    }
-    
-    // Navigation simulation
-    function navigate(page) {
-      alert("Navigating to " + page);
-    }
-
-    // Open Modal
-    function openModal(modalId) {
-      document.getElementById(modalId).classList.add('active');
-    }
-    // Close Modal
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.remove('active');
-    }
-
-    // Dummy authentication function
-    function authenticate() {
-      // In a real application, validate credentials via a backend
-      const email = document.getElementById('authEmail').value;
-      const password = document.getElementById('authPassword').value;
-      if(email && password) {
-        isAuthenticated = true;
-        alert("Authentication successful!");
-        document.getElementById('instruction').textContent = "You can now download images.";
-        document.getElementById('profileLink').style.display = "block";
-        closeModal('authModal');
-      } else {
-        alert("Please enter both email and password.");
-      }
-    }
-
-    // Handle Download Action
+  // Handle Download Action
     function downloadImage(event, imageUrl) {
       event.stopPropagation();
       if(!isAuthenticated) {
