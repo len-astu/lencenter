@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Gallery - TechLife Solutions Africa</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles & Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Open Sans', sans-serif; line-height: 1.6; color: #333; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* Navigation Bar */
+    .navbar {
+      background: #001f3f;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
+    .navbar .logo { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; }
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+    .navbar li { cursor: pointer; }
+    .navbar li:hover { text-decoration: underline; }
+    
+    /* Gallery Container */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .search-bar {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .search-bar input {
+      width: 80%;
+      max-width: 400px;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    /* Responsive Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .gallery-item img { width: 100%; height: auto; }
+    /* Hover Overlay */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      text-align: center;
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .overlay .meta {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .download-btn {
+      background: #FF851B;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Instructional Message */
+    .instruction {
+      text-align: center;
+      font-size: 1rem;
+      margin: 1rem 0;
+      color: #555;
+    }
+    
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+    .modal-content h2 { margin-bottom: 1rem; }
+    .modal-content input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .modal-content button {
+      width: 100%;
+      padding: 0.75rem;
+      background: #001f3f;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.75rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .modal-content a { color: #001f3f; font-size: 0.9rem; }
+
+    /* Responsive Navigation for Mobile */
+    @media (max-width: 768px) {
+      .navbar ul { display: none; flex-direction: column; background: #001f3f; position: absolute; top: 60px; right: 0; width: 200px; padding: 1rem; }
+      .navbar ul.active { display: flex; }
+      .hamburger { display: block; cursor: pointer; }
+      .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: #fff;
+        margin: 4px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">TechLife Gallery</div>
+    <ul id="navLinks">
+      <li onclick="navigate('home')">Home</li>
+      <li onclick="navigate('gallery')">Gallery</li>
+      <li onclick="openModal('authModal')">Login/Signup</li>
+      <li id="profileLink" style="display:none;" onclick="navigate('profile')">Profile</li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="gallery-header">
+      <h1>Image Gallery</h1>
+      <p class="instruction" id="instruction">
+        Please log in or sign up to download images.
+      </p>
+    </div>
+    <!-- Search / Filter Bar (Optional) -->
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search images by title or tag..." onkeyup="filterImages()" />
+    </div>
+    <!-- Gallery Grid -->
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Gallery Item Example -->
+    <!-- Gallery Items Loop -->
+    <script>
+      const images = [
+        { title: "Sunset", tags: "nature, sunset", url: "https://via.placeholder.com/300x200", size: "2.1 MB", date: "2025-03-01" },
+        { title: "Mountains", tags: "nature, mountains", url: "https://via.placeholder.com/300x200", size: "3.0 MB", date: "2025-02-20" },
+        { title: "Cityscape", tags: "city, urban", url: "https://via.placeholder.com/300x200", size: "2.5 MB", date: "2025-03-05" },
+        // Add more images as needed
+      ];
+
+      const itemsPerPage = 6;
+      let currentPage = 1;
+
+      function renderGallery() {
+        const galleryGrid = document.getElementById('galleryGrid');
+        galleryGrid.innerHTML = '';
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const paginatedItems = images.slice(start, end);
+
+        paginatedItems.forEach(image => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.setAttribute('data-title', image.title);
+        item.setAttribute('data-tags', image.tags);
+        item.innerHTML = `
+          <img src="${image.url}" alt="${image.title} Image">
+          <div class="overlay">
+            <div class="meta">
+            <p>Title: ${image.title}</p>
+            <p>Size: ${image.size}</p>
+            <p>Date: ${image.date}</p>
+            </div>
+            <button class="download-btn" onclick="downloadImage(event, '${image.url}')">Download</button>
+          </div>
+        `;
+        galleryGrid.appendChild(item);
+        });
+
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+        const totalPages = Math.ceil(images.length / itemsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.className = i === currentPage ? 'active' : '';
+        pageButton.onclick = () => {
+          currentPage = i;
+          renderGallery();
+        };
+        pagination.appendChild(pageButton);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderGallery();
+      });
+    </script>
+    <!-- Pagination Controls -->
+    <div id="pagination" class="pagination"></div>
+      <!-- More gallery items can be added here -->
+    </div>
+  </div>
+
+  <!-- Authentication Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('authModal')">&times;</span>
+      <h2>Login / Signup</h2>
+      <input type="email" id="authEmail" placeholder="Email" required>
+      <input type="password" id="authPassword" placeholder="Password" required>
+      <button onclick="authenticate()">Submit</button>
+      <p style="text-align:center; margin-top:1rem;">
+        <a href="#">Forgot Password?</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Dummy Authentication Flag
+    let isAuthenticated = false;
+
+    // Toggle mobile navigation
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+    
+    // Navigation simulation
+    function navigate(page) {
+      alert("Navigating to " + page);
+    }
+
+    // Open Modal
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    }
+    // Close Modal
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    // Dummy authentication function
+    function authenticate() {
+      // In a real application, validate credentials via a backend
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      if(email && password) {
+        isAuthenticated = true;
+        alert("Authentication successful!");
+        document.getElementById('instruction').textContent = "You can now download images.";
+        document.getElementById('profileLink').style.display = "block";
+        closeModal('authModal');
+      } else {
+        alert("Please enter both email and password.");
+      }
+    }
+
+    // Handle Download Action
+    function downloadImage(event, imageUrl) {
+      event.stopPropagation();
+      if(!isAuthenticated) {
+        alert("Please log in or sign up to download images.");
+        openModal('authModal');
+        return;
+      }
+      // Create a temporary link to download the image
+      const link = document.createElement('a');
+      link.href = imageUrl;
+      link.download = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Filter images by title or tags
+    function filterImages() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach(item => {
+        const title = item.getAttribute('data-title').toLowerCase();
+        const tags = item.getAttribute('data-tags').toLowerCase();
+        if(title.includes(input) || tags.includes(input)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
