@@ -293,38 +293,102 @@
       <!-- More gallery items can be added here -->
     </div>
   </div>
+<!-- Authentication Modal -->
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('authModal')">&times;</span>
+    <h2>Login / Signup</h2>
+    <!-- Traditional Login -->
+    <input type="email" id="authEmail" placeholder="Email" required>
+    <input type="password" id="authPassword" placeholder="Password" required>
+    <button onclick="authenticate()">Submit</button>
+    <p style="margin-bottom: 1rem;"><a href="#">Forgot Password?</a></p>
+    <hr style="margin: 1rem 0;">
+    <!-- Social Login Options -->
+    <button class="social-btn google" onclick="socialLogin('google')">Login with Google</button>
+    <button class="social-btn facebook" onclick="socialLogin('facebook')">Login with Facebook</button>
+    <button class="social-btn linkedin" onclick="socialLogin('linkedin')">Login with LinkedIn</button>
+  </div>
+</div>
+
+<script>
+  // Dummy Authentication Flag
+  let isAuthenticated = false;
+
+  // Toggle Mobile Navigation
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('active');
+  }
+  
+  // Navigation Simulation
+  function navigate(page) {
+    alert("Navigating to " + page);
+  }
+
+  // Open & Close Modal
+  function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+  }
+  function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+  }
+
+  // Traditional Authentication Function (Dummy)
+  function authenticate() {
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    if(email && password) {
+      isAuthenticated = true;
+      alert("Authentication successful!");
+      document.getElementById('instruction').textContent = "You can now download images.";
+      document.getElementById('profileLink').style.display = "block";
+      closeModal('authModal');
+    } else {
+      alert("Please enter both email and password.");
+    }
+  }
+
+  // Social Login Simulation
+  function socialLogin(provider) {
+    // In production, initiate the OAuth flow for the provider here.
+    alert("Simulating login with " + provider);
+    isAuthenticated = true;
+    document.getElementById('instruction').textContent = "You can now download images.";
+    document.getElementById('profileLink').style.display = "block";
+    closeModal('authModal');
+  }
 
   // Handle Download Action
-    function downloadImage(event, imageUrl) {
-      event.stopPropagation();
-      if(!isAuthenticated) {
-        alert("Please log in or sign up to download images.");
-        openModal('authModal');
-        return;
-      }
-      // Create a temporary link to download the image
-      const link = document.createElement('a');
-      link.href = imageUrl;
-      link.download = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  function downloadImage(event, imageUrl) {
+    event.stopPropagation();
+    if(!isAuthenticated) {
+      alert("Please log in or sign up to download images.");
+      openModal('authModal');
+      return;
     }
+    // Create a temporary link to download the image
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 
-    // Filter images by title or tags
-    function filterImages() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const items = document.querySelectorAll('.gallery-item');
-      items.forEach(item => {
-        const title = item.getAttribute('data-title').toLowerCase();
-        const tags = item.getAttribute('data-tags').toLowerCase();
-        if(title.includes(input) || tags.includes(input)) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    }
-  </script>
+  // Filter images by title or tags
+  function filterImages() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const items = document.querySelectorAll('.gallery-item');
+    items.forEach(item => {
+      const title = item.getAttribute('data-title').toLowerCase();
+      const tags = item.getAttribute('data-tags').toLowerCase();
+      if(title.includes(input) || tags.includes(input)) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+</script>
 </body>
 </html>
