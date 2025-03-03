@@ -200,12 +200,27 @@
       <!-- Gallery Item Example -->
     <!-- Gallery Items Loop -->
     <script>
-      const images = [
-        { title: "Sunset", tags: "nature, sunset", url: "https://via.placeholder.com/300x200", size: "2.1 MB", date: "2025-03-01" },
-        { title: "Mountains", tags: "nature, mountains", url: "https://via.placeholder.com/300x200", size: "3.0 MB", date: "2025-02-20" },
-        { title: "Cityscape", tags: "city, urban", url: "https://via.placeholder.com/300x200", size: "2.5 MB", date: "2025-03-05" },
-        // Add more images as needed
-      ];
+      const images = [];
+      const imageFolder = '/assets/images/';
+      const imageFiles = ['sunset.jpg', 'mountains.jpg', 'cityscape.jpg']; // Add more image filenames as needed
+
+      imageFiles.forEach((file, index) => {
+        const title = file.split('.')[0];
+        const tags = title.split('-').join(', ');
+        const url = `${imageFolder}${file}`;
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          const size = (img.width * img.height * 3 / (1024 * 1024)).toFixed(2) + ' MB'; // Calculate size in MB
+          const date = new Date().toISOString().split('T')[0]; // Placeholder date, you can set actual date if needed
+          images.push({ title, tags, url, size, date });
+          if (index === imageFiles.length - 1) {
+            renderGallery();
+          }
+        };
+        const date = new Date().toISOString().split('T')[0]; // Placeholder date, you can set actual date if needed
+        images.push({ title, tags, url, size, date });
+      });
 
       const itemsPerPage = 6;
       let currentPage = 1;
