@@ -1,288 +1,511 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Enhanced Website</title>
-    <link rel="stylesheet" href="style.css">  </head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <header>
-        <h1>Welcome to My Website</h1>
-        <p>This is an enhanced single-page website.</p>
-    </header>
-
-    <section id="about">
-        <h2>About Us</h2>
-        <p>We are a team of passionate individuals dedicated to creating innovative solutions.  We believe in the power of technology to transform lives.</p>
-    </section>
-
-    <section id="services">
-        <h2>Our Services</h2>
-        <ul>
-            <li>Web Development</li>
-            <li>AI Solutions</li>
-            <li>Consultancy</li>
-        </ul>
-    </section>
-
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: info@example.com</p>
-        <p>Phone: +1-555-123-4567</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 My Website</p>
-    </footer>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TechLife Solutions Africa - Home</title>
-  <!-- Link to your external stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechLife Solutions Africa</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Global reset and typography */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+    /* HEADER */
+    header {
+      position: relative;
+      background: linear-gradient(135deg, #001f3f, #FF851B);
+      padding: 1rem 0;
+      z-index: 10;
+    }
+    /* Optional: overlay Africa map image with low opacity */
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('africa-map-overlay.png') no-repeat center/cover;
+      opacity: 0.1;
+      z-index: -1;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .logo .highlight {
+      color: #FF851B;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    ul.menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+    ul.menu li {
+      margin: 0 1rem;
+      position: relative;
+    }
+    ul.menu li a:hover::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      animation: underline 0.3s ease-in-out forwards;
+    }
+    @keyframes underline {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    .quote-btn {
+      background: #FF851B;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: #fff;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .quote-btn:hover {
+      background: #e07a15;
+    }
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      height: 80vh;
+      background: url('african-city.jpg') no-repeat center center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      background: #FF851B;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    .secondary-link {
+      margin-top: 1rem;
+      display: inline-block;
+      text-decoration: underline;
+    }
+    /* Animated Counter */
+    .counters {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .counter {
+      background: rgba(255,255,255,0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 1.2rem;
+    }
+    /* Content Sections */
+    section {
+      padding: 4rem 0;
+    }
+    /* Services Cards */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 50px;
+      margin-bottom: 1rem;
+    }
+    /* Impact Carousel */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel img {
+      width: 100%;
+      flex-shrink: 0;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+    .carousel-btn.prev {
+      left: 10px;
+    }
+    .carousel-btn.next {
+      right: 10px;
+    }
+    /* Split Section for Why Choose Us */
+    .split {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+    .split .text, .split .video {
+      flex: 1;
+      min-width: 300px;
+    }
+    .video-placeholder {
+      background: #ddd;
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+    /* Footer */
+    footer {
+      background: #001f3f;
+      color: #fff;
+      padding: 2rem 0;
+    }
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .footer-content > div {
+      flex: 1;
+      min-width: 200px;
+      margin: 1rem 0;
+    }
+    .social-icons a {
+      display: inline-block;
+      margin-right: 0.5rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #FF851B;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #FF851B;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      ul.menu {
+        display: none;
+        flex-direction: column;
+        background: #001f3f;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 200px;
+      }
+      ul.menu.active {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
 </head>
-
-    
 <body>
-
-     <!-- Left Sidebar -->
-  <div id="sidebar-left">
-    <h2>Navigation</h2>
-     <nav>
-        <ul>
-            <li><a href="#">company-formation-plan</a></li>
-            <li><a href="#financial-statements">financial-statements</a></li>
-            <li><a href="#partnership-agreements">partnership-agreements</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-  </div>
-    
-<div id="main-content">      
-    <header>
-        <h1>Welcome to My Website</h1>
-        <p>This is an enhanced single-page website.</p>
-    </header>
-    <div className= "Heading">
-        <h1> Woonde and Lench from the TechLife Solution Africa company </br>TechLife Solutions Africa</h1>
-          <h2>Company Formation & Business Plan</h2>
-    </div>
-
-
-  <section class="section" id="company-formation-plan">
-    <h2>Company Formation Plan</h2>
-    
-    <h3>Legal Structure</h3>
-    <p>
-      <strong>Recommendation:</strong> Consider a Limited Liability Company (LLC) structure. This offers a balance of liability protection and simpler administrative requirements compared to a corporation. However, research the specific LLC regulations in the countries you'll be operating in, as they can vary.
-    </p>
-    <p>
-      <strong>Action:</strong> Consult with a legal professional specializing in business formation in Africa to determine the most suitable structure for your specific circumstances.
-    </p>
-    
-    <h3>Registration Process</h3>
-    <p>
-      <strong>Outline:</strong> Detail the steps involved in registering the company in the chosen jurisdiction(s). This will include filing paperwork, obtaining necessary licenses and permits, and complying with local regulations. You'll likely need to register in each country where you have a physical presence or significant operations.
-    </p>
-    <p>
-      <strong>Action:</strong> Research the specific registration requirements in each target country and create a checklist of tasks.
-    </p>
-    
-    <h3>Ownership and Equity</h3>
-    <p>
-      <strong>Agreement:</strong> Create a Founders' Agreement or Operating Agreement that clearly outlines:
-    </p>
-    <ul>
-      <li>Initial ownership percentages for each founder (based on contributions, expertise, etc.).</li>
-      <li>How future equity will be allocated (e.g., for new hires, investors).</li>
-      <li>Decision-making processes (voting rights, quorum requirements).</li>
-      <li>Dispute resolution mechanisms.</li>
-      <li>Exit strategies for founders.</li>
-    </ul>
-    <p>
-      <strong>Action:</strong> Draft the agreement with legal counsel to ensure it's comprehensive and legally sound.
-    </p>
-    
-    <h3>Governance</h3>
-    <p>
-      <strong>Management Structure:</strong> Define roles and responsibilities: CEO, CTO, COO, etc. Even if roles are shared initially, clarify who is ultimately accountable for what.
-    </p>
-    <p>
-      <strong>Advisory Board:</strong> Consider forming an advisory board of experienced professionals in technology, business, or the African market to provide guidance.
-    </p>
-    <p>
-      <strong>Action:</strong> Document the management structure and create an organizational chart.
-    </p>
-    
-    <h3>Compliance</h3>
-    <p>
-      <strong>Legal Counsel:</strong> Engage a lawyer specializing in technology and business law in Africa to ensure compliance with data privacy regulations, intellectual property protection, and other legal requirements.
-    </p>
-    <p>
-      <strong>Taxation:</strong> Consult with an accountant to understand tax obligations in each target country and set up appropriate accounting systems.
-    </p>
-    <p>
-      <strong>Action:</strong> Create a compliance checklist and schedule regular reviews to stay updated on changing regulations.
-    </p>
-  </section>
-
-  <section class="section" id="financial-statements">
-    <h2>Financial Statements</h2>
-    
-    <h3>Overview</h3>
-    <p>
-      Financial statements provide a transparent view of the company's financial health, facilitate performance tracking, and are essential for securing investment, obtaining loans, and managing internal decision-making.
-    </p>
-    
-    <h3>Cash Flow Projections</h3>
-    <p>
-      <strong>Definition:</strong> Forecasts that detail how cash is expected to flow in and out of the business over a specific period (monthly, quarterly, and annually).
-    </p>
-    <p>
-      <strong>Details:</strong>
-      <ul>
-        <li><em>Operating Activities:</em> Cash generated from core business operations, including revenue from product sales, subscription fees, and consulting services, minus operating expenses.</li>
-        <li><em>Investing Activities:</em> Cash flow related to capital expenditures such as equipment, infrastructure, or R&D investments.</li>
-        <li><em>Financing Activities:</em> Cash flows from funding sources, such as venture capital, angel investments, and loans, as well as repayments or dividend distributions.</li>
-      </ul>
-    </p>
-    
-    <h3>Balance Sheets</h3>
-    <p>
-      <strong>Definition:</strong> A snapshot of the company’s financial position at a specific point in time, listing assets, liabilities, and shareholders’ equity.
-    </p>
-    <p>
-      <strong>Details:</strong>
-      <ul>
-        <li><em>Assets:</em> Both current (cash, inventory, receivables) and non-current (property, plant, equipment, intellectual property).</li>
-        <li><em>Liabilities:</em> Current liabilities (accounts payable, short-term debt) and long-term liabilities (loans, deferred tax liabilities).</li>
-        <li><em>Equity:</em> Investment by founders, retained earnings, and additional paid-in capital.</li>
-      </ul>
-    </p>
-    
-    <h3>Profit and Loss Statements (Income Statements)</h3>
-    <p>
-      <strong>Definition:</strong> Reports that summarize revenues, costs, and expenses over a period, highlighting the net profit or loss.
-    </p>
-    <p>
-      <strong>Details:</strong>
-      <ul>
-        <li><em>Revenue Streams:</em> Breakdowns from product sales, subscriptions, licensing fees, and consulting.</li>
-        <li><em>Cost of Goods Sold (COGS):</em> Direct costs associated with production.</li>
-        <li><em>Operating Expenses:</em> Salaries, marketing, R&D, and administrative expenses.</li>
-        <li><em>Net Profit:</em> The bottom line after all expenses and taxes.</li>
-      </ul>
-    </p>
-    
-    <h3>Preparation and Review</h3>
-    <p>
-      <strong>Frequency:</strong> Monthly for internal reviews, quarterly for investor updates, and annually for formal reporting.
-    </p>
-    <p>
-      <strong>Tools:</strong> Utilize accounting software (e.g., QuickBooks, Xero) and financial planning tools to ensure accuracy.
-    </p>
-    <p>
-      <strong>Audit and Compliance:</strong> Regular internal audits and third-party reviews help maintain accuracy and compliance with local financial reporting standards.
-    </p>
-  </section>
-
-  <section class="section" id="partnership-agreements">
-    <h2>Partnership Agreements</h2>
-    
-    <h3>Overview</h3>
-    <p>
-      Partnership agreements are essential for formalizing relationships with key partners and suppliers, ensuring that all parties understand their roles, responsibilities, and the terms of engagement.
-    </p>
-    
-    <h3>Memorandum of Understanding (MOU)</h3>
-    <p>
-      <strong>Definition:</strong> A non-binding agreement that outlines the preliminary understanding between TechLife Solutions Africa and its partners or suppliers.
-    </p>
-    <p>
-      <strong>Details:</strong>
-      <ul>
-        <li><em>Objectives:</em> Clearly define the goals of the partnership, including expected outcomes and deliverables.</li>
-        <li><em>Roles and Responsibilities:</em> Outline what each party is expected to provide.</li>
-        <li><em>Duration and Review:</em> Establish a timeline for the agreement and set dates for periodic reviews.</li>
-        <li><em>Confidentiality Clauses:</em> Protect sensitive information shared during the collaboration.</li>
-      </ul>
-    </p>
-    
-    <h3>Contracts and Binding Agreements</h3>
-    <p>
-      <strong>Definition:</strong> Legally binding documents that formalize the relationship and obligations between TechLife Solutions Africa and its key partners or suppliers.
-    </p>
-    <p>
-      <strong>Details:</strong>
-      <ul>
-        <li><em>Scope of Work:</em> Clearly detail the services, deliverables, and milestones.</li>
-        <li><em>Payment Terms:</em> Define payment structures, timelines, and conditions.</li>
-        <li><em>Liability and Risk Management:</em> Outline responsibilities, indemnity clauses, and risk-sharing mechanisms.</li>
-        <li><em>Termination Clauses:</em> Provide clear terms for ending the agreement, including notice periods and penalties.</li>
-      </ul>
-    </p>
-    <nav>
-        <ul>
-          <li><a href="document.html">View Document Outline</a></li>
-        </ul>
-      </nav>
-     <nav>
-        <ul>
-          <li><a href="COMPANYFORMATIONPLAN.html">View Document Outline</a></li>
-        </ul>
-      </nav>
+  <!-- Header -->
+  <header>
+    <div class="container">
       <nav>
-        <ul>
-          <li><a href="techlife.html">TechLife</a></li>
+        <div class="logo">TechLife Solutions <span class="highlight">Africa</span></div>
+        <ul class="menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#impact">Impact</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><button class="quote-btn">Get a Quote</button></li>
         </ul>
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </nav>
-      
-    <h3>Implementation and Management</h3>
-    <p>
-      <strong>Documentation and Storage:</strong> All signed MOUs and contracts should be stored securely in both digital and physical formats. Implement a document management system to track renewal dates, amendments, and key terms.
-    </p>
-    <p>
-      <strong>Legal Oversight:</strong> Engage a legal team to draft, review, and update all agreements. Regularly review agreements to ensure they remain current with changing business needs and legal requirements.
-    </p>
-    <p>
-      <strong>Partner Relationship Management:</strong> Establish a dedicated team or point of contact for managing partner relationships and ensuring compliance with the terms of each agreement.
-    </p>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content container">
+      <h1>Empowering Africa Through Technology</h1>
+      <p>Innovative solutions for a connected future.</p>
+      <button class="btn" id="discoverBtn">Discover Our Solutions</button>
+      <a href="Gallery.html" class="secondary-link">See Our Gallery</a>
+      <br>
+      <a href="#impact" class="secondary-link">See Our Impact</a>
+      <div class="counters">
+        <div class="counter" id="countriesCounter">Serving 0 Countries</div>
+        <div class="counter" id="projectsCounter">0+ Projects Completed</div>
+      </div>
+    </div>
   </section>
- <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: lencenter@gmail.com</p>
-        <p>Phone: +0123456789</p>
-    </section>
-     <footer>
-        <p>&copy; 2025 My Website</p>
-    </footer>
-</div>
-    <!-- Right Sidebar -->
-  <div id="sidebar-right">
-    <h2>Notifications</h2>
-    <div class="notification">
-      <p>Site launched successfully!</p>
+
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2>Our Services</h2>
+      <div class="cards">
+        <div class="card">
+          <img src="asset/GEAR.png" alt="Digital Transformation">
+          <h3>Digital Transformation</h3>
+          <p>Modernizing businesses with cutting-edge digital solutions.</p>
+        </div>
+        <div class="card">
+          <img src="graduation-cap-icon.png" alt="Tech Training">
+          <h3>Tech Training</h3>
+          <p>Upskilling communities with comprehensive tech education.</p>
+        </div>
+        <div class="card">
+          <img src="icons8-code.gif" alt="Custom Software"> <!-- code-icon.png -->
+          <h3>Custom Software</h3>
+          <p>Tailored software solutions to meet your unique business needs.</p>
+        </div>
+      </div>
     </div>
-    <div class="notification">
-      <p>New update available.</p>
+  </section>
+
+  <!-- Impact Section -->
+  <section id="impact">
+    <div class="container">
+      <h2>Our Impact</h2>
+      <div class="carousel">
+        <div class="carousel-images">
+          <img src="impact1.jpg" alt="Impact 1">
+          <img src="impact2.jpg" alt="Impact 2">
+          <img src="impact3.jpg" alt="Impact 3">
+        </div>
+        <a href="impact.html" class="secondary-link">See Our Impact Page</a>
+        <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
+        <button class="carousel-btn next" id="nextBtn">&#10095;</button>
+      </div>
+      <p>From urban hubs to rural communities, we’re bridging the digital divide.</p>
+      <button class="btn">Read Stories</button>
     </div>
-    <div class="notification">
-      <p>Check your email for the latest news.</p>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section id="about">
+    <div class="container">
+      <h2>Why Choose Us?</h2>
+      <div class="split">
+        <div class="text">
+          <ul>
+            <li>Localized Expertise</li>
+            <li>Scalable Solutions</li>
+            <li>Innovative Technology</li>
+            <li>Community Focused</li>
+          </ul>
+        </div>
+        <div class="video">
+          <div class="video-placeholder">Video Placeholder</div>
+        </div>
+      </div>
     </div>
-  </div>    
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container footer-content">
+      <div>
+        <div class="logo">TechLife Solutions <span class="highlight">Africa</span></div>
+        <p>Innovation for All.</p>
+      </div>
+      <div>
+        <h3>Links</h3>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact Us</h3>
+        <form>
+          <input type="email" placeholder="Email" required>
+          <br>
+          <input type="tel" placeholder="Phone" required>
+          <br>
+          <button class="btn" type="submit">Submit</button>
+        </form>
+        <div class="social-icons">
+          <a href="#">X</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="back-to-top" id="backToTop">&#8679;</div>
+
+  <script>
+    // Hamburger Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.querySelector('ul.menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('active');
+    });
+
+    // Carousel Functionality
+    const carouselImages = document.querySelector('.carousel-images');
+    const images = document.querySelectorAll('.carousel-images img');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let index = 0;
+    const updateCarousel = () => {
+      const width = images[0].clientWidth;
+      carouselImages.style.transform = `translateX(${-width * index}px)`;
+    }
+    nextBtn.addEventListener('click', () => {
+      if (index < images.length - 1) {
+        index++;
+        updateCarousel();
+      }
+    });
+    prevBtn.addEventListener('click', () => {
+      if (index > 0) {
+        index--;
+        updateCarousel();
+      }
+    });
+
+    // Back-to-Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if(window.pageYOffset > 300) {
+        backToTop.style.display = 'block';
+      } else {
+        backToTop.style.display = 'none';
+      }
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // Animated Counters
+    function animateCounter(id, start, end, duration) {
+      let current = start;
+      const obj = document.getElementById(id);
+      const step = (end - start) / (duration / 50);
+      const counterInterval = setInterval(() => {
+        current += step;
+        if(current >= end) {
+          current = end;
+          clearInterval(counterInterval);
+        }
+        if(id === 'countriesCounter') {
+          obj.textContent = 'Serving ' + Math.floor(current) + ' Countries';
+        } else {
+          obj.textContent = Math.floor(current) + '+ Projects Completed';
+        }
+      }, 50);
+    }
+    // Trigger counters on page load
+    animateCounter('countriesCounter', 0, 12, 2000);
+    animateCounter('projectsCounter', 0, 50, 2000);
+  </script>
 </body>
 </html>
