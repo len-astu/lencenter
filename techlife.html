@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechLife Solutions Africa</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans&family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Global reset and typography */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+    }
+    /* HEADER */
+    header {
+      position: relative;
+      background: linear-gradient(135deg, #001f3f, #FF851B);
+      padding: 1rem 0;
+      z-index: 10;
+    }
+    /* Optional: overlay Africa map image with low opacity */
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('africa-map-overlay.png') no-repeat center/cover;
+      opacity: 0.1;
+      z-index: -1;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .logo .highlight {
+      color: #FF851B;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    ul.menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+    ul.menu li {
+      margin: 0 1rem;
+      position: relative;
+    }
+    ul.menu li a:hover::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      animation: underline 0.3s ease-in-out forwards;
+    }
+    @keyframes underline {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    .quote-btn {
+      background: #FF851B;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: #fff;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .quote-btn:hover {
+      background: #e07a15;
+    }
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      margin: 4px 0;
+      border-radius: 3px;
+    }
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      height: 80vh;
+      background: url('african-city.jpg') no-repeat center center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      background: #FF851B;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+    .secondary-link {
+      margin-top: 1rem;
+      display: inline-block;
+      text-decoration: underline;
+    }
+    /* Animated Counter */
+    .counters {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .counter {
+      background: rgba(255,255,255,0.2);
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 1.2rem;
+    }
+    /* Content Sections */
+    section {
+      padding: 4rem 0;
+    }
+    /* Services Cards */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: space-between;
+    }
+    .card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 50px;
+      margin-bottom: 1rem;
+    }
+    /* Impact Carousel */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel img {
+      width: 100%;
+      flex-shrink: 0;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+    .carousel-btn.prev {
+      left: 10px;
+    }
+    .carousel-btn.next {
+      right: 10px;
+    }
+    /* Split Section for Why Choose Us */
+    .split {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: center;
+    }
+    .split .text, .split .video {
+      flex: 1;
+      min-width: 300px;
+    }
+    .video-placeholder {
+      background: #ddd;
+      width: 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+    /* Footer */
+    footer {
+      background: #001f3f;
+      color: #fff;
+      padding: 2rem 0;
+    }
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .footer-content > div {
+      flex: 1;
+      min-width: 200px;
+      margin: 1rem 0;
+    }
+    .social-icons a {
+      display: inline-block;
+      margin-right: 0.5rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #FF851B;
+      color: #fff;
+      text-align: center;
+      line-height: 30px;
+    }
+    .back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #FF851B;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      ul.menu {
+        display: none;
+        flex-direction: column;
+        background: #001f3f;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 200px;
+      }
+      ul.menu.active {
+        display: flex;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">TechLife Solutions <span class="highlight">Africa</span></div>
+        <ul class="menu">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#impact">Impact</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><button class="quote-btn">Get a Quote</button></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content container">
+      <h1>Empowering Africa Through Technology</h1>
+      <p>Innovative solutions for a connected future.</p>
+      <button class="btn" id="discoverBtn">Discover Our Solutions</button>
+      <br>
+      <a href="#impact" class="secondary-link">See Our Impact</a>
+      <div class="counters">
+        <div class="counter" id="countriesCounter">Serving 0 Countries</div>
+        <div class="counter" id="projectsCounter">0+ Projects Completed</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2>Our Services</h2>
+      <div class="cards">
+        <div class="card">
+          <img src="gear-icon.png" alt="Digital Transformation">
+          <h3>Digital Transformation</h3>
+          <p>Modernizing businesses with cutting-edge digital solutions.</p>
+        </div>
+        <div class="card">
+          <img src="graduation-cap-icon.png" alt="Tech Training">
+          <h3>Tech Training</h3>
+          <p>Upskilling communities with comprehensive tech education.</p>
+        </div>
+        <div class="card">
+          <img src="code-icon.png" alt="Custom Software">
+          <h3>Custom Software</h3>
+          <p>Tailored software solutions to meet your unique business needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section id="impact">
+    <div class="container">
+      <h2>Our Impact</h2>
+      <div class="carousel">
+        <div class="carousel-images">
+          <img src="impact1.jpg" alt="Impact 1">
+          <img src="impact2.jpg" alt="Impact 2">
+          <img src="impact3.jpg" alt="Impact 3">
+        </div>
+        <button class="carousel-btn prev" id="prevBtn">&#10094;</button>
+        <button class="carousel-btn next" id="nextBtn">&#10095;</button>
+      </div>
+      <p>From urban hubs to rural communities, we’re bridging the digital divide.</p>
+      <button class="btn">Read Stories</button>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section id="about">
+    <div class="container">
+      <h2>Why Choose Us?</h2>
+      <div class="split">
+        <div class="text">
+          <ul>
+            <li>Localized Expertise</li>
+            <li>Scalable Solutions</li>
+            <li>Innovative Technology</li>
+            <li>Community Focused</li>
+          </ul>
+        </div>
+        <div class="video">
+          <div class="video-placeholder">Video Placeholder</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container footer-content">
+      <div>
+        <div class="logo">TechLife Solutions <span class="highlight">Africa</span></div>
+        <p>Innovation for All.</p>
+      </div>
+      <div>
+        <h3>Links</h3>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact Us</h3>
+        <form>
+          <input type="email" placeholder="Email" required>
+          <br>
+          <input type="tel" placeholder="Phone" required>
+          <br>
+          <button class="btn" type="submit">Submit</button>
+        </form>
+        <div class="social-icons">
+          <a href="#">X</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="back-to-top" id="backToTop">&#8679;</div>
+
+  <script>
+    // Hamburger Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.querySelector('ul.menu');
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('active');
+    });
+
+    // Carousel Functionality
+    const carouselImages = document.querySelector('.carousel-images');
+    const images = document.querySelectorAll('.carousel-images img');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let index = 0;
+    const updateCarousel = () => {
+      const width = images[0].clientWidth;
+      carouselImages.style.transform = `translateX(${-width * index}px)`;
+    }
+    nextBtn.addEventListener('click', () => {
+      if (index < images.length - 1) {
+        index++;
+        updateCarousel();
+      }
+    });
+    prevBtn.addEventListener('click', () => {
+      if (index > 0) {
+        index--;
+        updateCarousel();
+      }
+    });
+
+    // Back-to-Top Button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if(window.pageYOffset > 300) {
+        backToTop.style.display = 'block';
+      } else {
+        backToTop.style.display = 'none';
+      }
+    });
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // Animated Counters
+    function animateCounter(id, start, end, duration) {
+      let current = start;
+      const obj = document.getElementById(id);
+      const step = (end - start) / (duration / 50);
+      const counterInterval = setInterval(() => {
+        current += step;
+        if(current >= end) {
+          current = end;
+          clearInterval(counterInterval);
+        }
+        if(id === 'countriesCounter') {
+          obj.textContent = 'Serving ' + Math.floor(current) + ' Countries';
+        } else {
+          obj.textContent = Math.floor(current) + '+ Projects Completed';
+        }
+      }, 50);
+    }
+    // Trigger counters on page load
+    animateCounter('countriesCounter', 0, 12, 2000);
+    animateCounter('projectsCounter', 0, 50, 2000);
+  </script>
+</body>
+</html>
