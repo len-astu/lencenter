@@ -1,46 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Image Gallery</title>
-  <style>
-    .gallery img {
-      width: 200px;
-      height: auto;
-      margin: 10px;
+// server.js
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const assetsDir = path.join(__dirname, 'assets');
+
+// Serve static files from the assets folder
+app.use('/assets', express.static(assetsDir));
+
+// API endpoint to get the list of image URLs
+app.get('/api/images', (req, res) => {
+  fs.readdir(assetsDir, (err, files) => {
+    if (err) {
+      return res.status(500).json({ error: 'Unable to scan directory' });
     }
-  </style>
-</head>
-<body>
-  <div class="gallery" id="gallery"></div>
+    // Filter files to include only image files (jpg, jpeg, png, gif)
+    const imageFiles = files.filter(file => /\.(jpg|jpeg|png|gif)$/i.test(file));
+    // Map file names to URLs (assuming your server serves from /assets)
+    const imageUrls = imageFiles.map(file => `/assets/${file}`);
+    res.json(imageUrls);
+  });
+});
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const gallery = document.getElementById('gallery');
-      const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-      const assetsDir = '/assets/'; // Change this to your assets directory
-
-      fetch(assetsDir)
-        .then(response => response.text())
-        .then(data => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(data, 'text/html');
-          const links = htmlDoc.querySelectorAll('a');
-
-          links.forEach(link => {
-            const href = link.getAttribute('href');
-            const extension = href.split('.').pop().toLowerCase();
-
-            if (imageExtensions.includes(extension)) {
-              const img = document.createElement('img');
-              img.src = `${assetsDir}${href}`;
-              gallery.appendChild(img);
-            }
-          });
-        })
-        .catch(error => console.error('Error fetching images:', error));
-    });
-  </script>
-</body>
-</html>
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
