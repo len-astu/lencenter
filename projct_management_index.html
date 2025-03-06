@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Management Dashboard</title>
+  <style>
+    /* Global Styles & Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #f4f4f4;
+      color: #333;
+      padding: 1rem;
+    }
+    h1, h2, h3 {
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 0.5rem;
+    }
+    /* Header */
+    header {
+      background: #001f3f;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    header nav li {
+      cursor: pointer;
+    }
+    header nav li:hover {
+      text-decoration: underline;
+    }
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+    }
+    /* Task Assignment Form */
+    #taskForm {
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    #taskForm form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    #taskForm form input,
+    #taskForm form textarea,
+    #taskForm form select {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+    #taskForm form button {
+      grid-column: span 2;
+      background: #FF851B;
+      border: none;
+      padding: 0.75rem;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #taskForm form button:hover {
+      background: #e07a15;
+    }
+    /* Kanban Board */
+    #kanbanBoard {
+      margin-bottom: 2rem;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .column {
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .column h3 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      background: #001f3f;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+    .taskList {
+      min-height: 100px;
+    }
+    .task {
+      background: #FFFAF0;
+      margin: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 4px;
+      border-left: 4px solid #FF851B;
+    }
+    .task p {
+      font-size: 0.9rem;
+      margin: 0.25rem 0;
+    }
+    .task .small {
+      font-size: 0.8rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Navigation -->
+  <header>
+    <div class="logo">Project Management</div>
+    <nav>
+      <ul>
+        <li onclick="navigate('home')">Home</li>
+        <li onclick="navigate('projects')">Projects</li>
+        <li onclick="navigate('tasks')">Tasks</li>
+        <li onclick="navigate('team')">Team</li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Task Assignment Form -->
+    <section id="taskForm">
+      <h2>Create New Task</h2>
+      <form id="createTaskForm">
+        <!-- Task Title -->
+        <input type="text" id="taskTitle" placeholder="Task Title" required />
+        <!-- Assignee Dropdown -->
+        <select id="assignee" required>
+          <option value="" disabled selected>Select Assignee</option>
+          <option value="CEO">CEO</option>
+          <option value="Co-founder">Co-founder</option>
+          <option value="Manager">Manager</option>
+        </select>
+        <!-- Task Description (full width) -->
+        <textarea id="taskDescription" placeholder="Task Description" rows="3" style="grid-column: span 2;"></textarea>
+        <!-- Due Date -->
+        <input type="date" id="dueDate" required />
+        <!-- Priority -->
+        <select id="priority" required>
+          <option value="" disabled selected>Priority</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <!-- Status -->
+        <select id="status" required>
+          <option value="" disabled selected>Status</option>
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="On Hold">On Hold</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <!-- Submit Button -->
+        <button type="submit">Create Task</button>
+      </form>
+    </section>
+
+    <!-- Kanban Board for Task Visualization -->
+    <section id="kanbanBoard">
+      <h2>Task Board</h2>
+      <div class="board">
+        <div class="column" data-status="To Do">
+          <h3>To Do</h3>
+          <div class="taskList" id="todoList"></div>
+        </div>
+        <div class="column" data-status="In Progress">
+          <h3>In Progress</h3>
+          <div class="taskList" id="inProgressList"></div>
+        </div>
+        <div class="column" data-status="On Hold">
+          <h3>On Hold</h3>
+          <div class="taskList" id="onHoldList"></div>
+        </div>
+        <div class="column" data-status="Completed">
+          <h3>Completed</h3>
+          <div class="taskList" id="completedList"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Dummy navigation function
+    function navigate(page) {
+      alert("Navigating to " + page);
+    }
+
+    // Handle task creation and update the Kanban board
+    const taskForm = document.getElementById('createTaskForm');
+    taskForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const title = document.getElementById('taskTitle').value;
+      const description = document.getElementById('taskDescription').value;
+      const assignee = document.getElementById('assignee').value;
+      const dueDate = document.getElementById('dueDate').value;
+      const priority = document.getElementById('priority').value;
+      const status = document.getElementById('status').value;
+      
+      // Create a task object
+      const task = {
+        title,
+        description,
+        assignee,
+        dueDate,
+        priority,
+        status
+      };
+      
+      // Append task to corresponding column
+      addTaskToBoard(task);
+      
+      // Reset form
+      taskForm.reset();
+    });
+
+    // Function to add task to the appropriate column
+    function addTaskToBoard(task) {
+      const taskListId = {
+        "To Do": "todoList",
+        "In Progress": "inProgressList",
+        "On Hold": "onHoldList",
+        "Completed": "completedList"
+      }[task.status];
+      
+      const taskList = document.getElementById(taskListId);
+      
+      // Create task element with basic details
+      const taskDiv = document.createElement('div');
+      taskDiv.classList.add('task');
+      taskDiv.innerHTML = `
+        <h4>${task.title}</h4>
+        <p class="small"><strong>Assignee:</strong> ${task.assignee}</p>
+        <p class="small"><strong>Due:</strong> ${task.dueDate}</p>
+        <p class="small"><strong>Priority:</strong> ${task.priority}</p>
+        <p>${task.description}</p>
+      `;
+      
+      taskList.appendChild(taskDiv);
+    }
+  </script>
+</body>
+</html>
