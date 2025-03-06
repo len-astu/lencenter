@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.js
+import React, { useState } from 'react';
+import Header from './components/Header';
+import TaskForm from './components/TaskForm';
+import KanbanBoard from './components/KanbanBoard';
+import LoginModal from './components/LoginModal';
+import './styles/main.scss'; // Global styles
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [tasks, setTasks] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleCreateTask = (task) => {
+    setTasks(prevTasks => [...prevTasks, task]);
+  };
+
+  const handleTraditionalLogin = (email, password) => {
+    // Replace with real API call
+    if (email && password) {
+      alert('Traditional login successful!');
+      setIsAuthenticated(true);
+      setIsModalOpen(false);
+    } else {
+      alert('Please enter valid credentials.');
+    }
+  };
+
+  const handleSocialLogin = (provider) => {
+    // Replace with real OAuth integration
+    alert(`Social login with ${provider} successful!`);
+    setIsAuthenticated(true);
+    setIsModalOpen(false);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <Header 
+        onNavClick={(page) => alert(`Navigating to ${page}`)}
+        onLoginClick={() => setIsModalOpen(true)}
+        isAuthenticated={isAuthenticated}
+      />
+      <div className="container">
+        <TaskForm onCreateTask={handleCreateTask} />
+        <KanbanBoard tasks={tasks} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <LoginModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onTraditionalLogin={handleTraditionalLogin}
+        onSocialLogin={handleSocialLogin}
+      />
+    </div>
+  );
+};
 
-export default App
+export default App;
