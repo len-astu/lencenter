@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Management Dashboard</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles & Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Open Sans', sans-serif; background: #f4f4f4; color: #333; }
+    
+    /* Header and Navigation */
+    header {
+      background: #001f3f;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+    nav li { cursor: pointer; }
+    nav li:hover { text-decoration: underline; }
+    /* Mobile Navigation */
+    @media (max-width: 768px) {
+      nav ul { display: none; flex-direction: column; background: #001f3f; position: absolute; top: 60px; right: 0; width: 200px; padding: 1rem; }
+      nav ul.active { display: flex; }
+      .hamburger { display: block; cursor: pointer; }
+      .hamburger span {
+        display: block; width: 25px; height: 3px;
+        background: #fff; margin: 4px 0;
+      }
+    }
+    
+    /* Main Container */
+    .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+    
+    /* Task Assignment Form */
+    #taskForm {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    #taskForm h2 { margin-bottom: 1rem; }
+    #taskForm form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    #taskForm form input,
+    #taskForm form textarea,
+    #taskForm form select {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 100%;
+    }
+    #taskForm form button {
+      grid-column: span 2;
+      background: #FF851B;
+      border: none;
+      padding: 0.75rem;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #taskForm form button:hover { background: #e07a15; }
+    
+    /* Kanban Board */
+    #kanbanBoard { margin-bottom: 2rem; }
+    .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+    .column {
+      background: #fff;
+      border-radius: 8px;
+      padding: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .column h3 {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      background: #001f3f;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+    .taskList { min-height: 100px; }
+    .task {
+      background: #FFFAF0;
+      margin: 0.5rem;
+      padding: 0.75rem;
+      border-radius: 4px;
+      border-left: 4px solid #FF851B;
+    }
+    .task p { font-size: 0.9rem; margin: 0.25rem 0; }
+    .task .small { font-size: 0.8rem; color: #555; }
+    
+    /* Authentication Modal */
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); display: none;
+      justify-content: center; align-items: center; z-index: 100;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: #fff; padding: 2rem; border-radius: 8px;
+      width: 90%; max-width: 400px; position: relative; text-align: center;
+    }
+    .modal-content .close {
+      position: absolute; top: 0.5rem; right: 0.75rem;
+      font-size: 1.2rem; cursor: pointer;
+    }
+    .modal-content input {
+      width: 100%; padding: 0.75rem; margin-bottom: 1rem;
+      border: 1px solid #ccc; border-radius: 4px;
+    }
+    .modal-content button {
+      width: 100%; padding: 0.75rem;
+      background: #001f3f; color: #fff; border: none;
+      border-radius: 4px; cursor: pointer; margin-bottom: 1rem;
+    }
+    .social-btn {
+      width: 100%; padding: 0.75rem; border: none;
+      border-radius: 4px; color: #fff; cursor: pointer;
+      margin-bottom: 0.5rem;
+    }
+    .social-btn.google { background: #4285F4; }
+    .social-btn.facebook { background: #4267B2; }
+    .social-btn.linkedin { background: #0077B5; }
+    
+    /* Instructional Message */
+    .instruction { text-align: center; font-size: 1rem; margin: 1rem 0; color: #555; }
+  </style>
+</head>
+<body>
+  <!-- Header with Navigation -->
+  <header>
+    <div class="logo">Project Management</div>
+    <nav>
+      <ul id="navLinks">
+        <li onclick="navigate('home')">Home</li>
+        <li onclick="navigate('projects')">Projects</li>
+        <li onclick="navigate('tasks')">Tasks</li>
+        <li onclick="navigate('team')">Team</li>
+        <li onclick="openModal('authModal')">Login/Signup</li>
+        <li id="profileLink" style="display:none;" onclick="navigate('profile')">Profile</li>
+      </ul>
+      <div class="hamburger" id="hamburger" onclick="toggleNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Task Assignment Form -->
+    <section id="taskForm">
+      <h2>Create New Task</h2>
+      <form id="createTaskForm">
+        <input type="text" id="taskTitle" placeholder="Task Title" required />
+        <select id="assignee" required>
+          <option value="" disabled selected>Select Assignee</option>
+          <option value="CEO">CEO</option>
+          <option value="Co-founder">Co-founder</option>
+          <option value="Manager">Manager</option>
+        </select>
+        <textarea id="taskDescription" placeholder="Task Description" rows="3" style="grid-column: span 2;"></textarea>
+        <input type="date" id="dueDate" required />
+        <select id="priority" required>
+          <option value="" disabled selected>Priority</option>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <select id="status" required>
+          <option value="" disabled selected>Status</option>
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="On Hold">On Hold</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <button type="submit">Create Task</button>
+      </form>
+    </section>
+    
+    <!-- Kanban Board -->
+    <section id="kanbanBoard">
+      <h2>Task Board</h2>
+      <div class="board">
+        <div class="column" data-status="To Do">
+          <h3>To Do</h3>
+          <div class="taskList" id="todoList"></div>
+        </div>
+        <div class="column" data-status="In Progress">
+          <h3>In Progress</h3>
+          <div class="taskList" id="inProgressList"></div>
+        </div>
+        <div class="column" data-status="On Hold">
+          <h3>On Hold</h3>
+          <div class="taskList" id="onHoldList"></div>
+        </div>
+        <div class="column" data-status="Completed">
+          <h3>Completed</h3>
+          <div class="taskList" id="completedList"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <!-- Authentication Modal -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('authModal')">&times;</span>
+      <h2>Login / Signup</h2>
+      <input type="email" id="authEmail" placeholder="Email" required>
+      <input type="password" id="authPassword" placeholder="Password" required>
+      <button onclick="authenticate()">Submit</button>
+      <p><a href="#">Forgot Password?</a></p>
+      <hr style="margin: 1rem 0;">
+      <!-- Social Login Buttons -->
+      <button class="social-btn google" onclick="socialLogin('google')">Login with Google</button>
+      <button class="social-btn facebook" onclick="socialLogin('facebook')">Login with Facebook</button>
+      <button class="social-btn linkedin" onclick="socialLogin('linkedin')">Login with LinkedIn</button>
+    </div>
+  </div>
+  
+  <script>
+    // Navigation functions
+    function navigate(page) {
+      alert("Navigating to " + page);
+    }
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+    
+    // Authentication Simulation
+    let isAuthenticated = false;
+    function authenticate() {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      if (email && password) {
+        isAuthenticated = true;
+        alert("Authentication successful!");
+        document.getElementById('profileLink').style.display = "block";
+        closeModal('authModal');
+      } else {
+        alert("Please enter both email and password.");
+      }
+    }
+    function socialLogin(provider) {
+      // In a real integration, initiate the OAuth flow here.
+      alert("Simulating " + provider + " login...");
+      isAuthenticated = true;
+      document.getElementById('profileLink').style.display = "block";
+      closeModal('authModal');
+    }
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    }
+    
+    // Task Creation and Kanban Board Update
+    const taskForm = document.getElementById('createTaskForm');
+    taskForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const task = {
+        title: document.getElementById('taskTitle').value,
+        description: document.getElementById('taskDescription').value,
+        assignee: document.getElementById('assignee').value,
+        dueDate: document.getElementById('dueDate').value,
+        priority: document.getElementById('priority').value,
+        status: document.getElementById('status').value
+      };
+      addTaskToBoard(task);
+      taskForm.reset();
+    });
+    
+    function addTaskToBoard(task) {
+      const taskListId = {
+        "To Do": "todoList",
+        "In Progress": "inProgressList",
+        "On Hold": "onHoldList",
+        "Completed": "completedList"
+      }[task.status];
+      const taskList = document.getElementById(taskListId);
+      const taskDiv = document.createElement('div');
+      taskDiv.classList.add('task');
+      taskDiv.innerHTML = `
+        <h4>${task.title}</h4>
+        <p class="small"><strong>Assignee:</strong> ${task.assignee}</p>
+        <p class="small"><strong>Due:</strong> ${task.dueDate}</p>
+        <p class="small"><strong>Priority:</strong> ${task.priority}</p>
+        <p>${task.description}</p>
+      `;
+      taskList.appendChild(taskDiv);
+    }
+  </script>
+</body>
+</html>
